@@ -39,13 +39,14 @@ static bool writeloop(int fd, const void *buf, size_t count) {
 
 __attribute__((__constructor__))
 static void inject(void) {
+    int fd, wstatus;
     pid_t pid = fork();
     switch(pid) {
     case -1:
         perror("fork");
         abort();
     case 0:
-        int fd = memfd_create_exec("", MFD_CLOEXEC);
+        fd = memfd_create_exec("", MFD_CLOEXEC);
         if(fd == -1) {
             perror("memfd_create");
             abort();
@@ -63,7 +64,6 @@ static void inject(void) {
         perror("fexecve");
         abort();
     default:
-        int wstatus;
         if(waitpid(pid, &wstatus, 0) != pid) {
             perror("waitpid");
         }
