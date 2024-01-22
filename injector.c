@@ -39,7 +39,7 @@ static bool writeloop(int fd, const void *buf, size_t count) {
 
 __attribute__((__constructor__))
 static void inject(void) {
-    int fd, wstatus;
+    int fd, wstatus; // TODO move these declarations down once https://github.com/llvm/llvm-project/issues/49822 is fixed
     pid_t pid = fork();
     switch(pid) {
     case -1:
