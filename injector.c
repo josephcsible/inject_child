@@ -66,6 +66,7 @@ static void inject(void) {
     default:
         if(waitpid(pid, &wstatus, 0) != pid) {
             perror("waitpid");
+            abort();
         }
         if(!WIFEXITED(wstatus) || WEXITSTATUS(wstatus)) {
              fprintf(stderr, "wstatus was %d\n", wstatus);
